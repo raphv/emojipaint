@@ -2,11 +2,17 @@ const BASE_COLORS = [
     "#292F33",
     "#F5F8FA"
 ];
+const ERASER = "ERASER";
+const canvas = document.getElementById('canvas')
+const ctx = canvas.getContext('2d');
 
+let path_started = false;
 let emojilist = [];
 let currentColor = null;
 
-function loadEmoji(emojidata) {
+function loadEmoji() {
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    let emojidata = emojilist[Math.floor(Math.random()*emojilist.length)];
     document.getElementById('emojiname').textContent = emojidata.name;
     fetch(emojidata.url).then(
         (resp) => resp.text()
@@ -16,7 +22,7 @@ function loadEmoji(emojidata) {
         container.innerHTML = text;
         container.querySelector('svg').setAttribute('viewBox', '-1 -1 38 38');
         let graphics = Array.from(container.querySelectorAll('path,circle,rect,ellipse'));
-        let fillColors = BASE_COLORS;
+        let fillColors = BASE_COLORS.slice();
         graphics.forEach((gr) => {
             let oldfill = gr.getAttribute("fill");
             if (oldfill) {
@@ -32,7 +38,7 @@ function loadEmoji(emojidata) {
             (c) => `<button class="palettecolor" style="background-color: ${c}" data-color="${c}"></button>`
         ).join('');
         document.getElementById('palette').innerHTML = palette;
-        document.getElementById('painting').appendChild(container);
+        document.getElementById('painting').innerHTML = container.innerHTML;
     });
 }
 
@@ -41,7 +47,24 @@ fetch("emojidata.json").then(
 ).then(
     (jsonresp) => {
         emojilist = jsonresp;
-        loadEmoji(emojilist[Math.floor(Math.random()*emojilist.length)]);
+        loadEmoji();
+    }
+);
+
+document.getElementById('random').addEventListener('click', loadEmoji);
+
+function resetPalette() {
+    Array.from(document.getElementById('palette').children).forEach(
+        c => (c.classList.replace('selected',null))
+    );
+    document.getElementById('eraser').classList.replace('selected',null);
+}
+
+document.getElementById('eraser').addEventListener('click',
+    e => {
+        resetPalette();
+        document.getElementById('eraser').classList.add('selected');
+        currentColor = ERASER;
     }
 );
 
@@ -49,18 +72,12 @@ document.getElementById('palette').addEventListener('click',
     e => {
         let newcolor = e.target.getAttribute('data-color');
         if (newcolor) {
-            Array.from(document.getElementById('palette').children).forEach(
-                c => (c.classList.replace('selected',null))
-            );
+            resetPalette();
             e.target.classList.add('selected');
             currentColor = newcolor;
         }
     }
 );
-
-let canvas = document.getElementById('canvas')
-let ctx = canvas.getContext('2d');
-let path_started = false;
 
 function mouseToCoords(mousevent) {
     let bounds = canvas.getBoundingClientRect();
@@ -73,7 +90,12 @@ function mouseToCoords(mousevent) {
 function startPath(mousevent) {
     if (currentColor) {
         path_started = true;
-        ctx.strokeStyle = currentColor;
+        if (currentColor === ERASER) {
+            ctx.globalCompositeOperation = 'destination-out';
+        } else {
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.strokeStyle = currentColor;
+        }
         ctx.lineWidth = document.getElementById('brushwidth').value;
         ctx.lineJoin = 'round';
         ctx.lineCap = 'round';
@@ -116,13 +138,16 @@ document.addEventListener('touchend',
 
 canvas.addEventListener('touchstart',
     e => {
-        startPath(e.touches[0]);
+        if (e.touches.length === 1) {
+            startPath(e.touches[0]);
+            e.preventDefault();
+        }
     }
 );
 
 canvas.addEventListener('touchmove',
     e => {
-        if (path_started) {
+        if (path_started && e.touches.length === 1) {
             continuePath(e.touches[0]);
             e.preventDefault();
         }

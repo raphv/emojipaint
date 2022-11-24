@@ -14,7 +14,6 @@ html, body, #main {
     width: 100%;
 }
 #main {
-    padding: 10px;
     display: flex;
     flex-direction: row;
 }
@@ -24,8 +23,8 @@ html, body, #main {
     text-align: center;
 }
 #rightcol {
+    background: #f8f8f8;
     width: max(20%, 65px);
-    margin-left: 10px;
     display: flex;
     flex-direction: column;
     height: 100%;
@@ -35,32 +34,20 @@ h1 {
     font-size: 1.8em;
     margin: 0 0 5px;
 }
-h2 {
-    font-weight: 600;
-    font-size: 1.2em;
-    margin: 0 0 10px;
-    font-style: italic;
-}
-.imagezone {
-    background: #f0f0f0;
-    border: 1px solid #cccccc;
-    border-radius: 15px;
-}
-#original {
-    padding: 10px;
-}
 #original svg {
-    width: 100%;
+    display: block;
+    margin: 5px auto;
+    max-width: 100%;
+    max-height: 15vh;
 }
 #paintingzone {
     padding: 10px;
 }
 #paintingcontainer {
+    max-height: 80vh;
+    max-width: 80vh;
     margin: 0 auto;
     position: relative;
-}
-#paintingcontainer svg {
-    max-height: 80vh;
 }
 #canvas {
     position: absolute;
@@ -74,22 +61,37 @@ h2 {
     max-width: 80%;
     margin: 10px auto;
 }
-#palette {
+fieldset {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     align-content: start;
     justify-content: center;
-    height: 100%;
+}
+#palette {
+    max-height: 100%;
     overflow: auto;
 }
 .palettecolor {
-    width: 50px;
-    height: 50px;
-    border-radius: 25px;
-    border: 5px solid #f0f0f0;
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    border: 5px solid #e8e8e8;
     margin: 2px;
+    cursor: pointer;
+    background-color: #fcfcfc;
+    background-repeat: no-repeat;
+    background-position: center;
 }
 .palettecolor.selected {
-    border: 5px double black;
+    border-color: #c080c0 #c060c0 #c040c0;
+}
+.palettecolor:hover {
+    opacity: .8;
+}
+#eraser {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M0,0L20,20M0,20L20,0' stroke='%23c00000' stroke-width='4' fill='none'/%3E%3C/svg%3E");
+}
+#random {
+    background-image: url(https://twemoji.maxcdn.com/v/latest/svg/1f500.svg);
 }

@@ -4,12 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width">
         <link rel="stylesheet" href="style.css">
+        <title>Paint a random emoji</title>
     </head>
     <body>
         <div id="main">
             <div id="leftcol">
-                <h1>Paint a random emoji</h1>
-                <h2 id="emojiname"></h2>
+                <h1 id="emojiname"></h1>
                 <div class="imagezone" id="paintingzone">
                     <div id="paintingcontainer">
                         <div id="painting"></div>
@@ -19,8 +19,12 @@
             </div>
             <div id="rightcol">
                 <div class="imagezone" id="original"></div>
-                <input id="brushwidth" type="range" min="4" max="40" value="10">
+                <input id="brushwidth" title="Brush size" type="range" min="4" max="40" value="10">
                 <fieldset id="palette"></fieldset>
+                <fieldset id="bottomfields">
+                    <button id="eraser" class="palettecolor" title="Erase"></button>
+                    <button id="random" class="palettecolor" title="Load random image"></button>
+                </fieldset>
             </div>
         </div>
         <script src="emojipaint.js"></script>
