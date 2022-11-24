@@ -112,3 +112,24 @@ canvas.addEventListener('mousemove',
         }
     }
 );
+
+document.addEventListener('touchend',
+    e => {
+        path_started = false;
+    }
+)
+
+canvas.addEventListener('touchstart',
+    e => {
+        startPath(e.touches[0]);
+    }
+);
+
+canvas.addEventListener('touchmove',
+    e => {
+        if (path_started) {
+            continuePath(e.touches[0]);
+            e.preventDefault();
+        }
+    }
+);
