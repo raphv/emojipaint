@@ -6,13 +6,6 @@ const BASE_COLORS = [
 let emojilist = [];
 let currentColor = null;
 
-function resizeCanvas() {
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
-}
-
-window.addEventListener('resize', resizeCanvas);
-
 function loadEmoji(emojidata) {
     document.getElementById('emojiname').textContent = emojidata.name;
     fetch(emojidata.url).then(
@@ -40,7 +33,6 @@ function loadEmoji(emojidata) {
         ).join('');
         document.getElementById('palette').innerHTML = palette;
         document.getElementById('painting').appendChild(container);
-        resizeCanvas();
     });
 }
 
@@ -72,7 +64,10 @@ let path_started = false;
 
 function mouseToCoords(mousevent) {
     let bounds = canvas.getBoundingClientRect();
-    return [mousevent.clientX - bounds.x, mousevent.clientY - bounds.y];
+    return [
+        (mousevent.clientX - bounds.x) * (canvas.width / bounds.width),
+        (mousevent.clientY - bounds.y) * (canvas.height / bounds.height)
+    ];
 }
 
 function startPath(mousevent) {
