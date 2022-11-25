@@ -1,20 +1,56 @@
 const BASE_COLORS = [
     "#292F33",
-    "#F5F8FA"
+    "#F5F8FA",
+    "#DD2E44",
+    "#FFCC4D",
+    "#78B159",
+    "#5DADEC"
 ];
 const ERASER = "ERASER";
 const canvas = document.getElementById('canvas')
 const ctx = canvas.getContext('2d');
 
 let path_started = false;
-let emojilist = [];
+let emojilist = [],
+    shuffled_emojis = [];
 let currentColor = null;
 
-function loadEmoji() {
+function shuffleList(list) {
+    let res = [], list_copy = list.slice();
+    while (list_copy.length) {
+        res = res.concat(
+            list_copy.splice(
+                Math.floor(Math.random()*list_copy.length), 1
+            )
+        );
+    }
+    return res;
+}
+
+/* Function adapted from https://github.com/twitter/twemoji/ */
+function codeToUTF(emojicode) {
+    return emojicode.split(/[-_]/).map( (c) => {
+        let code = parseInt(c, 16);
+        if (code < 0x10000) {
+            return String.fromCharCode(code);
+        }
+        code -= 0x10000;
+        return String.fromCharCode(
+            0xD800 + (code >> 10),
+            0xDC00 + (code & 0x3FF)
+        );
+    }).join('');
+}
+/* End of code */
+
+function codeToURL(emojicode) {
+    return `https://twemoji.maxcdn.com/v/latest/svg/${emojicode}.svg`;
+}
+
+function loadEmoji(emojidata) {
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    let emojidata = emojilist[Math.floor(Math.random()*emojilist.length)];
     document.getElementById('emojiname').textContent = emojidata.name;
-    fetch(emojidata.url).then(
+    fetch(codeToURL(emojidata.code)).then(
         (resp) => resp.text()
     ).then((text) => {
         document.getElementById('original').innerHTML = text;
@@ -35,11 +71,15 @@ function loadEmoji() {
             gr.setAttribute("stroke-width",".2");
         });
         let palette = fillColors.map(
-            (c) => `<button class="palettecolor" style="background-color: ${c}" data-color="${c}"></button>`
+            (c) => `<button class="palettecolor" title="Paint in ${c}" style="background-color: ${c}" data-color="${c}"></button>`
         ).join('');
         document.getElementById('palette').innerHTML = palette;
         document.getElementById('painting').innerHTML = container.innerHTML;
     });
+}
+
+function loadRandomEmoji() {
+    loadEmoji(shuffled_emojis.pop());
 }
 
 fetch("emojidata.json").then(
@@ -47,11 +87,40 @@ fetch("emojidata.json").then(
 ).then(
     (jsonresp) => {
         emojilist = jsonresp;
-        loadEmoji();
+        shuffled_emojis = shuffleList(emojilist);
+        loadRandomEmoji();
+        console.log('Loading emojilist')
+        document.getElementById('emojilist').innerHTML = emojilist.map(
+            (emojidata) => {
+                return `<button class="emojiselector" data-code="${emojidata.code}" title="${emojidata.name}">${codeToUTF(emojidata.code)}</button>`;
+            }).join('');
     }
 );
 
-document.getElementById('random').addEventListener('click', loadEmoji);
+document.getElementById('random').addEventListener('click', loadRandomEmoji);
+
+document.getElementById('list').addEventListener('click', e => {
+    document.getElementById('emojilist-container').style.display = 'flex';
+    document.getElementById('main').style.display = 'none';
+});
+
+document.getElementById('backbutton').addEventListener('click', e => {
+    document.getElementById('emojilist-container').style.display = '';
+    document.getElementById('main').style.display = '';
+});
+
+document.getElementById('emojilist').addEventListener('click', e => {
+    let emojicode = e.target.getAttribute('data-code');
+    if (emojicode) {
+        let emojititle = e.target.getAttribute('title');
+        document.getElementById('emojilist-container').style.display = '';
+        document.getElementById('main').style.display = '';
+        loadEmoji({
+            'code': emojicode,
+            'name': emojititle 
+        });
+    }
+});
 
 function resetPalette() {
     Array.from(document.getElementById('palette').children).forEach(
