@@ -1,5 +1,5 @@
 # Remove old data files
-*.json
+./*.json
 
 # No more checkpoints
 .ipynb_checkpoints
