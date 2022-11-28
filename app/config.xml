@@ -8,4 +8,8 @@
     <content src="index.html" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
+    <platform name="android">
+        <icon size="hdpi" src="res/icon/android/icon.xml" />
+        <preference name="AndroidWindowSplashScreenAnimatedIcon" value="res/icon/android/icon.xml" />
+    </platform>
 </widget>
