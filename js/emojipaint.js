@@ -88,7 +88,9 @@ fetch("data/emojidata.json").then(
                 currentcat = emojidata.category;
                 emojicontent += `<h2>${currentcat}</h2>`;
             }
-            emojicontent += `<button class="emojiselector" data-index="${i}" title="${emojidata.name}">${codeToUTF(emojidata.code)}</button>`;
+            emojicontent += `<button class="emojiselector" data-index="${i}" title="${emojidata.name}">
+    <svg width="30" height="30" viewBox="0 0 36 36">${emojidata.svg_data}</svg>
+</button>`;
         }
         document.getElementById('emojilist').innerHTML = emojicontent;
         Array.from(document.querySelectorAll('button.emojiselector')).forEach(btn => {
