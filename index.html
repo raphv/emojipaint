@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width">
         <link rel="stylesheet" href="css/emojipaint.css">
         <title>Paint a random emoji</title>
-        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: https://twemoji.maxcdn.com/ 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: https://twemoji.maxcdn.com/ content:;">
+        <meta http-equiv="Content-Security-Policy" content="default-src 'self' data: 'unsafe-eval'; style-src 'self' 'unsafe-inline'; media-src *; img-src 'self' data: content:;">
     </head>
     <body>
         <div id="main">
@@ -23,9 +23,35 @@
                 <input id="brushwidth" title="Brush size" type="range" min="4" max="40" value="10">
                 <fieldset id="palette"></fieldset>
                 <fieldset id="bottomfields">
-                    <button id="eraser" class="palettecolor" title="Erase"></button>
-                    <button id="random" class="palettecolor" title="Load random image"></button>
-                    <button id="list" class="palettecolor" title="Choose from list"></button>
+                    <button id="eraser" class="roundbutton" title="Erase">
+                        <svg width="22" height="22" viewBox="0 0 20 20">
+                            <path d="M0,0L20,20M0,20L20,0" stroke="#c00000" stroke-width="4" fill="none"/>
+                        </svg>
+                    </button>
+                    <button id="random" class="roundbutton" title="Load random image">
+                        <svg width="22" height="22" viewBox="0 0 36 36">
+                            <path fill="#3B88C3" d="M36 32c0 2.209-1.791 4-4 4H4c-2.209 0-4-1.791-4-4V4c0-2.209 1.791-4 4-4h28c2.209 0 4 1.791 4 4v28z"/>
+                            <path d="M12.953 15.717c.549-1.394 1.234-2.861 2.175-4.142C13.95 10.064 12.351 9 10 9H7v4h3c1.307 0 2.119.896 2.953 2.717zm6.527 5.424c-.478 1.314-1.059 2.777-1.852 4.132C18.718 26.318 20.117 27 22 27h3v-4h-3c-1.082 0-1.822-.62-2.52-1.859z" fill="#FFF"/>
+                            <path fill="#FFF" d="M10 27H7v-4h3c1.884 0 2.739-1.816 4.117-5.673C15.441 13.617 17.09 9 22 9h3v4h-3c-1.885 0-2.739 1.817-4.117 5.673C16.559 22.383 14.91 27 10 27z"/>
+                            <path fill="#FFF" d="M30.2 11L23 5v12zm0 14L23 19v12z"/>
+                        </svg>
+                    </button>
+                    <button id="list" class="roundbutton" title="Choose from list">
+                        <svg width="22" height="22" viewBox="0 0 36 36">
+                            <path fill="#66757F" d="M27.815 4h1.996v2.391h-1.996z"/>
+                            <path fill="#55ACEE" d="M29 4H9C6.791 4 5 5.791 5 8v24c0 2.209 1.791 4 4 4h20c2.209 0 4-1.791 4-4V8c0-2.209-1.791-4-4-4z"/>
+                            <path fill="#CCD6DD" d="M27 4H7C4.791 4 3 5.791 3 8v24c0 2.209 1.791 4 4 4h20c2.209 0 4-1.791 4-4V8c0-2.209-1.791-4-4-4z"/>
+                            <path fill="#99AAB5" d="M28 15c0 .553-.447 1-1 1H7c-.552 0-1-.447-1-1 0-.552.448-1 1-1h20c.553 0 1 .448 1 1zm0 5c0 .553-.447 1-1 1H7c-.552 0-1-.447-1-1 0-.553.448-1 1-1h20c.553 0 1 .447 1 1zm0 5c0 .553-.447 1-1 1H7c-.552 0-1-.447-1-1 0-.553.448-1 1-1h20c.553 0 1 .447 1 1zm-8 5c0 .553-.447 1-1 1H7c-.552 0-1-.447-1-1 0-.553.448-1 1-1h12c.553 0 1 .447 1 1z"/>
+                            <path fill="#292F33" d="M7.836 8.731c-.702 0-1.271-.666-1.271-1.489 0-.822.569-1.489 1.271-1.489.701 0 1.27.667 1.27 1.489 0 .822-.569 1.489-1.27 1.489z"/>
+                            <path fill="#66757F" d="M8.543 7.083c-.055-.48-.374-.792-.729-1.017-.485-.307-1-1.008-1-1.877 0-1.104.671-2.095 1.5-2.095s1.5.905 1.5 1.905h1.996c-.021-2-1.575-3.821-3.496-3.821-1.934 0-3.5 1.819-3.5 4.005 0 1.853 1.045 3.371 2.569 3.926.76.276 1.224-.447 1.16-1.026z"/>
+                            <path fill="#292F33" d="M13.836 8.731c-.702 0-1.271-.666-1.271-1.489 0-.822.569-1.489 1.271-1.489.701 0 1.27.667 1.27 1.489 0 .822-.569 1.489-1.27 1.489z"/>
+                            <path fill="#66757F" d="M14.543 7.083c-.055-.48-.374-.792-.729-1.017-.485-.307-1-1.008-1-1.877 0-1.104.671-2.095 1.5-2.095s1.5.905 1.5 1.905h1.996c-.02-2-1.575-3.821-3.496-3.821-1.934 0-3.5 1.819-3.5 4.005 0 1.853 1.045 3.371 2.569 3.926.76.276 1.224-.447 1.16-1.026z"/>
+                            <path fill="#292F33" d="M19.836 8.731c-.702 0-1.271-.666-1.271-1.489 0-.822.569-1.489 1.271-1.489.701 0 1.271.667 1.271 1.489-.001.822-.57 1.489-1.271 1.489z"/>
+                            <path fill="#66757F" d="M20.543 7.083c-.055-.48-.374-.792-.728-1.017-.485-.307-1-1.008-1-1.877 0-1.104.671-2.095 1.5-2.095s1.5.905 1.5 1.905h1.996c-.02-2-1.575-3.821-3.496-3.821-1.934 0-3.5 1.819-3.5 4.005 0 1.853 1.045 3.371 2.569 3.926.759.276 1.223-.447 1.159-1.026z"/>
+                            <path fill="#292F33" d="M25.836 8.731c-.702 0-1.271-.666-1.271-1.489 0-.822.569-1.489 1.271-1.489.701 0 1.271.667 1.271 1.489-.001.822-.57 1.489-1.271 1.489z"/>
+                            <path fill="#66757F" d="M26.543 7.083c-.055-.48-.374-.792-.728-1.017-.485-.307-1-1.008-1-1.877 0-1.104.671-2.095 1.5-2.095s1.5.905 1.5 1.905h1.996c-.02-2-1.575-3.821-3.496-3.821-1.934 0-3.5 1.819-3.5 4.005 0 1.853 1.045 3.371 2.569 3.926.759.276 1.223-.447 1.159-1.026z"/>
+                        </svg>
+                    </button>
                 </fieldset>
             </div>
         </div>

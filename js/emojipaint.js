@@ -43,39 +43,31 @@ function codeToUTF(emojicode) {
 }
 /* End of code */
 
-function codeToURL(emojicode) {
-    return `https://twemoji.maxcdn.com/v/latest/svg/${emojicode}.svg`;
-}
-
 function loadEmoji(emojidata) {
     ctx.clearRect(0,0,canvas.width,canvas.height);
     document.getElementById('emojiname').textContent = emojidata.name;
-    fetch(codeToURL(emojidata.code)).then(
-        (resp) => resp.text()
-    ).then((text) => {
-        document.getElementById('original').innerHTML = text;
-        let container = document.createElement('div');
-        container.innerHTML = text;
-        container.querySelector('svg').setAttribute('viewBox', '-1 -1 38 38');
-        let graphics = Array.from(container.querySelectorAll('path,circle,rect,ellipse'));
-        let fillColors = BASE_COLORS.slice();
-        graphics.forEach((gr) => {
-            let oldfill = gr.getAttribute("fill");
-            if (oldfill) {
-                if (fillColors.indexOf(oldfill) === -1) {
-                    fillColors.push(oldfill);
-                }
+    let svgdata = emojidata.svg_data;
+    document.getElementById('original').innerHTML = `<svg viewBox="0 0 36 36">${svgdata}</svg>`;
+    let container = document.createElement('div');
+    container.innerHTML = `<svg viewBox="-1 -1 38 38">${svgdata}</svg>`;
+    let graphics = Array.from(container.querySelectorAll('path,circle,rect,ellipse'));
+    let fillColors = BASE_COLORS.slice();
+    graphics.forEach((gr) => {
+        let oldfill = gr.getAttribute("fill");
+        if (oldfill) {
+            if (fillColors.indexOf(oldfill) === -1) {
+                fillColors.push(oldfill);
             }
-            gr.setAttribute("fill","#ffffff");
-            gr.setAttribute("stroke","#808080");
-            gr.setAttribute("stroke-width",".2");
-        });
-        let palette = fillColors.map(
-            (c) => `<button class="palettecolor" title="Paint in ${c}" style="background-color: ${c}" data-color="${c}"></button>`
-        ).join('');
-        document.getElementById('palette').innerHTML = palette;
-        document.getElementById('painting').innerHTML = container.innerHTML;
+        }
+        gr.setAttribute("fill","#ffffff");
+        gr.setAttribute("stroke","#808080");
+        gr.setAttribute("stroke-width",".2");
     });
+    let palette = fillColors.map(
+        (c) => `<button class="palettecolor" title="Paint in ${c}" style="background-color: ${c}" data-color="${c}"></button>`
+    ).join('');
+    document.getElementById('palette').innerHTML = palette;
+    document.getElementById('painting').innerHTML = container.innerHTML;
 }
 
 function loadRandomEmoji() {
@@ -89,11 +81,24 @@ fetch("data/emojidata.json").then(
         emojilist = jsonresp;
         shuffled_emojis = shuffleList(emojilist);
         loadRandomEmoji();
-        console.log('Loading emojilist')
-        document.getElementById('emojilist').innerHTML = emojilist.map(
-            (emojidata) => {
-                return `<button class="emojiselector" data-code="${emojidata.code}" title="${emojidata.name}">${codeToUTF(emojidata.code)}</button>`;
-            }).join('');
+        let emojicontent = '', emlen = emojilist.length, currentcat = null;
+        for (let i = 0; i < emlen; i++) {
+            let emojidata = emojilist[i];
+            if (emojidata.category !== currentcat) {
+                currentcat = emojidata.category;
+                emojicontent += `<h2>${currentcat}</h2>`;
+            }
+            emojicontent += `<button class="emojiselector" data-index="${i}" title="${emojidata.name}">${codeToUTF(emojidata.code)}</button>`;
+        }
+        document.getElementById('emojilist').innerHTML = emojicontent;
+        Array.from(document.querySelectorAll('button.emojiselector')).forEach(btn => {
+            let i = parseInt(btn.getAttribute('data-index'));
+            btn.addEventListener('click', e => {
+                document.getElementById('emojilist-container').style.display = '';
+                document.getElementById('main').style.display = '';
+                loadEmoji(emojilist[i]);
+            });
+        });
     }
 );
 
@@ -107,19 +112,6 @@ document.getElementById('list').addEventListener('click', e => {
 document.getElementById('backbutton').addEventListener('click', e => {
     document.getElementById('emojilist-container').style.display = '';
     document.getElementById('main').style.display = '';
-});
-
-document.getElementById('emojilist').addEventListener('click', e => {
-    let emojicode = e.target.getAttribute('data-code');
-    if (emojicode) {
-        let emojititle = e.target.getAttribute('title');
-        document.getElementById('emojilist-container').style.display = '';
-        document.getElementById('main').style.display = '';
-        loadEmoji({
-            'code': emojicode,
-            'name': emojititle 
-        });
-    }
 });
 
 function resetPalette() {
