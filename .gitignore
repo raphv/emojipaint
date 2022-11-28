@@ -1,0 +1,5 @@
+# Remove old data files
+*.json
+
+# No more checkpoints
+.ipynb_checkpoints

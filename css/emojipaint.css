@@ -1,0 +1,146 @@
+html {
+    font-size: 15px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+* {
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-sizing: border-box;
+    font-size: inherit;
+    font-weight: inherit;
+}
+html, body, #main {
+    height: 100%;
+    width: 100%;
+}
+#main {
+    display: flex;
+    flex-direction: row;
+}
+#leftcol {
+    width: 80%;
+    height: 100%;
+    text-align: center;
+}
+#rightcol {
+    background: #f8f8f8;
+    width: max(20%, 65px);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+h1 {
+    font-weight: 100;
+    font-size: 1.8em;
+    margin: 0 0 5px;
+}
+button {
+    cursor: pointer;
+}
+button:hover {
+    opacity: .8;
+}
+#original svg {
+    display: block;
+    margin: 5px auto;
+    max-width: 100%;
+    max-height: 15vh;
+}
+#paintingzone {
+    padding: 10px;
+}
+#paintingcontainer {
+    max-height: 80vh;
+    max-width: 80vh;
+    margin: 0 auto;
+    position: relative;
+}
+#canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+}
+#brushwidth {
+    display: block;
+    max-width: 80%;
+    margin: 10px auto;
+}
+fieldset {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: start;
+    justify-content: center;
+}
+#palette {
+    max-height: 100%;
+    overflow: auto;
+}
+.palettecolor {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    border: 5px solid #e8e8e8;
+    margin: 2px;
+    background-color: #fcfcfc;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+.palettecolor.selected {
+    border-color: #c080c0 #c060c0 #c040c0;
+}
+#eraser {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M0,0L20,20M0,20L20,0' stroke='%23c00000' stroke-width='4' fill='none'/%3E%3C/svg%3E");
+}
+#random {
+    background-image: url(https://twemoji.maxcdn.com/v/latest/svg/1f500.svg);
+}
+
+#list {
+    background-image: url(https://twemoji.maxcdn.com/v/latest/svg/1f5d2.svg);
+}
+
+#emojilist-container {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+
+#backbutton-container {
+    padding: 10px 10px 0;
+}
+
+#backbutton {
+    width: 40px;
+    height: 40px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-color: #404040;
+    border-radius: 20px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 20 20'%3E%3Cpath d='M12,2L2,10L12,18M2,10h20' stroke='%23e000e0' stroke-width='4' fill='none'/%3E%3C/svg%3E");
+}
+
+#emojilist {
+    flex-basis: 100%;
+    overflow: scroll;
+    padding: 0 10px 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.emojiselector {
+    font-size: 25px;
+    line-height: 25px;
+    height: 35px;
+    width: 35px;
+    text-align: center;
+    border-radius: 20px;
+    background-color: #f0f0f0;
+    margin: 2px;
+}
