@@ -20,12 +20,15 @@
             </div>
             <div id="rightcol">
                 <div class="imagezone" id="original"></div>
-                <input id="brushwidth" title="Brush size" type="range" min="4" max="40" value="10">
+                <input id="brushwidth" title="Brush size" type="range" min="4" max="50" value="20">
                 <fieldset id="palette"></fieldset>
                 <fieldset id="bottomfields">
                     <button id="eraser" class="roundbutton" title="Erase">
                         <svg width="22" height="22" viewBox="0 0 20 20">
-                            <path d="M0,0L20,20M0,20L20,0" stroke="#c00000" stroke-width="4" fill="none"/>
+                            <g transform="rotate(-30,10,10)">
+                                <path d="M10,5h-6q-3,0,-3,3v4q0,3,3,3h6" stroke="#d08080" stroke-width="2" fill="#e89898"></path>
+                                <path d="M10,5h6q3,0,3,3v4q0,3,-3,3h-6" stroke="#d08080" stroke-width="2" fill="none"></path>
+                            </g>
                         </svg>
                     </button>
                     <button id="random" class="roundbutton" title="Load random image">

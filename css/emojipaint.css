@@ -87,20 +87,24 @@ fieldset {
     overflow: auto;
 }
 .roundbutton, .palettecolor {
-    border-radius: 20px;
+    border-radius: 100%;
     border: 5px solid #e8e8e8;
     margin: 2px;
     background-color: #fcfcfc;
 }
 .palettecolor {
-    width: 40px;
-    height: 40px;
+    width: max(40px,4vw);
+    height: max(40px,4vw);
 }
-.palettecolor.selected {
+.selected {
     border-color: #c080c0 #c060c0 #c040c0;
 }
 .roundbutton {
     padding: 4px;
+}
+.roundbutton svg {
+    width: max(22px,2.2vw);
+    height: max(22px,2.2vw);
 }
 #emojilist-container {
     display: none;

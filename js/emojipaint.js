@@ -1,10 +1,10 @@
 const BASE_COLORS = [
-    "#292F33",
-    "#F5F8FA",
-    "#DD2E44",
-    "#FFCC4D",
-    "#78B159",
-    "#5DADEC"
+    "#000",
+    "#FFF",
+    "#FF0000",
+    "#00FF00",
+    "#0000FF",
+    "#FFFF00",
 ];
 const ERASER = "ERASER";
 const canvas = document.getElementById('canvas')
@@ -67,6 +67,9 @@ function loadEmoji(emojidata) {
         (c) => `<button class="palettecolor" title="Paint in ${c}" style="background-color: ${c}" data-color="${c}"></button>`
     ).join('');
     document.getElementById('palette').innerHTML = palette;
+    document.getElementById('eraser').classList.replace('selected',null);
+    currentColor = fillColors[Math.floor(Math.random()*fillColors.length)];
+    document.querySelector(`#palette button[data-color="${currentColor}"]`).classList.add('selected');
     document.getElementById('painting').innerHTML = container.innerHTML;
 }
 
@@ -107,8 +110,11 @@ fetch("data/emojidata.json").then(
 document.getElementById('random').addEventListener('click', loadRandomEmoji);
 
 document.getElementById('list').addEventListener('click', e => {
-    document.getElementById('emojilist-container').style.display = 'flex';
     document.getElementById('main').style.display = 'none';
+    //force redraw to avoid user clicking early
+    window.setTimeout(
+        t => document.getElementById('emojilist-container').style.display = 'flex'
+    );
 });
 
 document.getElementById('backbutton').addEventListener('click', e => {
